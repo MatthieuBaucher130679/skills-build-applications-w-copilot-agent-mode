@@ -1,0 +1,26 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const app = (0, express_1.default)();
+const port = 8000;
+const mongoUrl = 'mongodb://127.0.0.1:27017/octofit-tracker';
+app.use(express_1.default.json());
+app.get('/', (req, res) => {
+    res.json({ message: 'OctoFit Tracker backend is running.' });
+});
+mongoose_1.default
+    .connect(mongoUrl)
+    .then(() => {
+    console.log('Connected to MongoDB at', mongoUrl);
+    app.listen(port, () => {
+        console.log(`Backend server listening on http://localhost:${port}`);
+    });
+})
+    .catch((error) => {
+    console.error('MongoDB connection error:', error);
+    process.exit(1);
+});
